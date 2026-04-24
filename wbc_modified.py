@@ -108,31 +108,31 @@ class mod_VGG16(nn.Module):
         self.features = nn.Sequential(
             # Block 1
             nn.Conv2d(3, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
+            nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
             nn.Conv2d(64, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
+            nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
 
             # Block 2
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
+            nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
             nn.Conv2d(128, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
+            nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
 
             # Block 3
             nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
+            nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
+            nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
+            nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
 
@@ -146,6 +146,8 @@ class mod_VGG16(nn.Module):
             nn.Conv2d(512, 512, kernel_size=3, padding=1),
             nn.BatchNorm2d(512),
             nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+
             nn.MaxPool2d(kernel_size=2, stride=2),
 
         )
@@ -287,11 +289,11 @@ for epoch in range(num_epochs):
     # Save best model
     if val_acc > best_val_acc:
         best_val_acc = val_acc
-        torch.save(model.state_dict(), "fulldataset_vgg16.pth")
-        print("Saved best model to fulldataset_vgg16.pth")
+        torch.save(model.state_dict(), "fulldataset_vgg16_mod.pth")
+        print("Saved best model to fulldataset_vgg16_mod.pth")
 
         save_checkpoint(
-            "best_checkpoint.pth",
+            "best_checkpoint_mod.pth",
             model,
             optimizer,
             epoch,
@@ -304,7 +306,7 @@ for epoch in range(num_epochs):
 # 9. Save final model
 # =========================================================
 save_checkpoint(
-    "final_checkpoint.pth",
+    "final_checkpoint_mod.pth",
     model,
     optimizer,
     num_epochs,
@@ -312,4 +314,4 @@ save_checkpoint(
     config
 )
 print("Training complete.")
-print("Saved final model to final_checkpoint.pth")
+print("Saved final model to final_checkpoint_mod.pth")
